@@ -1,8 +1,10 @@
 FROM shoothzj/base
 
+ARG TARGETARCH
+
 RUN apt-get update && \
     # for doris
-    apt-get install -y xz-utils && \
+    apt-get install -y binutils xz-utils && \
     apt-get install -y --no-install-recommends openjdk-8-jdk unzip && \
     apt-get -y --purge autoremove && \
     apt-get autoclean && \
@@ -17,7 +19,6 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-$TARGETARCH
 
 WORKDIR /opt
 
-ARG TARGETARCH
 ARG amd_download=1.2.2-bin-x86_64
 ARG arm_download=1.2.2-bin-x86_64
 
@@ -27,10 +28,12 @@ RUN if [ "$TARGETARCH" = "amd64" ]; \
     fi && \
     wget -q https://archive.apache.org/dist/doris/1.2/1.2.2-rc01/apache-doris-be-$download.tar.xz && \
     wget -q https://archive.apache.org/dist/doris/1.2/1.2.2-rc01/apache-doris-fe-$download.tar.xz && \
+    wget -q https://archive.apache.org/dist/doris/1.2/1.2.2-rc01/apache-doris-dependencies-$download.tar.xz && \
     mkdir -p /opt/doris/be && \
     mkdir -p /opt/doris/fe && \
     tar -xf apache-doris-be-$download.tar.xz -C /opt/doris/be --strip-components 1 && \
     tar -xf apache-doris-fe-$download.tar.xz -C /opt/doris/fe --strip-components 1 && \
+    strip /opt/doris/be/lib/doris_be && \
     rm -rf /opt/apache-doris-be-$download.tar.xz && \
     rm -rf /opt/apache-doris-fe-$download.tar.xz
 
