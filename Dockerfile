@@ -20,7 +20,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-$TARGETARCH
 WORKDIR /opt
 
 ARG amd_download=1.2.2-bin-x86_64
-ARG arm_download=1.2.2-bin-x86_64
+ARG arm_download=1.2.2-bin-arm
 
 RUN if [ "$TARGETARCH" = "amd64" ]; \
     then download=$amd_download; \
