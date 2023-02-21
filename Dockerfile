@@ -31,10 +31,14 @@ RUN if [ "$TARGETARCH" = "amd64" ]; \
     wget -q https://archive.apache.org/dist/doris/1.2/1.2.2-rc01/apache-doris-dependencies-$download.tar.xz && \
     mkdir -p /opt/doris/be && \
     mkdir -p /opt/doris/fe && \
+    mkdir -p /opt/doris/dep && \
     tar -xf apache-doris-be-$download.tar.xz -C /opt/doris/be --strip-components 1 && \
     tar -xf apache-doris-fe-$download.tar.xz -C /opt/doris/fe --strip-components 1 && \
+    tar -xf apache-doris-dependencies-$download.tar.xz -C /opt/doris/dep --strip-components 1 && \
     strip /opt/doris/be/lib/doris_be && \
+    mv /opt/doris/dep/java-udf-jar-with-dependencies.jar /opt/doris/be/lib/ && \
     rm -rf /opt/apache-doris-be-$download.tar.xz && \
-    rm -rf /opt/apache-doris-fe-$download.tar.xz
+    rm -rf /opt/apache-doris-fe-$download.tar.xz && \
+    rm -rf /opt/apache-doris-dependencies-$download.tar.xz
 
 WORKDIR /opt/doris
