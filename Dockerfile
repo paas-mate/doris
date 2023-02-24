@@ -6,6 +6,7 @@ RUN apt-get update && \
     # for doris
     apt-get install -y binutils xz-utils && \
     apt-get install -y --no-install-recommends openjdk-8-jdk unzip && \
+    apt-get install -y mysql-client && \
     apt-get -y --purge autoremove && \
     apt-get autoclean && \
     apt-get clean && \
